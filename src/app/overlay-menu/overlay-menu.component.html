@@ -1,0 +1,55 @@
+<div class="logoAndMenu" #logoAndMenuContainer>
+  <a href="#" routerLink='/home' id="logo" class="mainLogo">
+    <img src="/assets/logo-big.png" class="cu-logo" alt="Web Check In">
+  </a>
+  <a href="#" routerLink='/home' id="logoicon" class="mainLogoIcon">
+    <img src="/assets/logo-small.png" class="cu-logo-small" alt="G">
+  </a>
+  <a class="menuButton" (click)="onMenuButtonClick()" #menuButton>
+    Menu
+    <div>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </a>
+  <nav>
+    <div id="contact">
+      <div>
+        <p>GKMI Anugerah Jakarta<br>
+          Wisma Anugerah<br>
+          Jl. Taman Tanah Abang III/2<br>
+          10160 - Jakarta Pusat<br>
+          Indonesia</p>
+      </div>
+      <div>
+        <p class="contactTel"><a href="tel:+62 21 3844 777">(021) 3844 777</a></p>
+        <p><a href="mailto:elroianugerah@gmail.com">elroianugerah@gmail.com</a></p>
+      </div>
+      <div>
+          <a class="socialIconButtonLinkNav" target="_blank" href="https://instagram.com/gkmi_anugerah">
+            <img class="socialIconButtonNav" src="/assets/img/instagram-circle-w.png" alt="IG">
+          </a>
+          <a class="socialIconButtonLinkNav" target="_blank" href="https://goo.gl/maps/aPQFoLxrTEo">
+            <img class="socialIconButtonNav" src="/assets/img/location-circle-w.png" alt="IG">
+          </a>
+      </div>
+    </div>
+    <div id="menuListContainer">
+      <ul id="menuList" class="menuList">
+        <li [className]="home_class">
+          <a routerLink='/home' href="#">Home</a>
+        </li>
+        <li [className]="kisah_class">
+          <a routerLink='/kisah' href="#">Kisah Kami</a>
+        </li>
+        <li [className]="komunitas_class">
+          <a routerLink='/komunitas' href="#">Komunitas</a>
+        </li>
+        <li [className]="persekutuan_class">
+          <a routerLink='/connect' href="#">CONNECT</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

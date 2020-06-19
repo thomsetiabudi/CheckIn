@@ -1,0 +1,360 @@
+// Variables
+
+// Colors
+
+$primaryBackgroundColor: #adadad;
+$blackTransparent: rgba(255,255,255,0.35);
+
+@font-face {
+    font-family: 'montserratregular';
+    src: url(/assets/font/montserrat-regular-webfont.woff2) format('woff2'),
+         url(/assets/font/montserrat-regular-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        opacity: 0;
+        // transform: translate(10%, -20%);
+    }
+    100% {
+        opacity: 1;
+        // transform: translate(0, 0);
+    }
+}
+
+* {
+    font-family: 'montserratregular' !important;
+}
+
+*, *:after, *:before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-user-select: none;
+}
+
+body {
+    overflow: hidden !important;
+    background-color: $primaryBackgroundColor !important;
+}
+
+/* Adjust Module Content on small device */
+@media (max-width: 960px) {
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+    }
+
+    html {
+        overflow: hidden;
+    }
+}
+
+a {
+    text-decoration: none !important;
+}
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+.hideContent {
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+}
+
+.hideContent * {
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+}
+
+/* Module Content */
+.moduleContentContainer {
+    width: 50%;
+    position: absolute !important;
+    top: 53% !important;
+    transform: translateY(-47%) !important;
+    z-index: 30;
+    left: 7vw !important;
+    display: block;
+    transition: 0.5s ease-in-out;
+}
+
+.moduleContentContainer > div h1 {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.75px;
+    line-height: 1.6em;
+    text-align: justify;
+    margin-bottom: 5px;
+    animation: 1.5s ease-out 0s 1 slideInFromRight;
+}
+
+.moduleContentContainer > div p, .moduleContentContainer > div div.moduleContentText {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.75px;
+    line-height: 1.6em;
+    text-align: justify;
+    margin-bottom: 5px;
+    animation: 1.5s ease-out 0s 1 slideInFromRight;
+}
+
+.moduleContentContainer > div > div {
+    animation: 1.5s ease-out 0s 1 slideInFromRight;
+}
+
+.moduleContentModuleTitle {
+    display: block;
+}
+
+h1.moduleContentTitle {
+    font-weight: normal !important;
+}
+
+.moduleContentTitle {
+    font-size: 25px !important;
+    text-transform: uppercase;
+}
+
+.moduleContentTitle > span {
+    vertical-align: top;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.moduleContentText {
+    margin-top: 15px;
+    max-height: 50vh;
+    overflow: auto;
+    padding-right: 3px;
+}
+
+.moduleContentText > span {
+    vertical-align: top;
+}
+
+.contactSocialIconButtonNav {
+    display: inline-block;
+    width:25px;
+    height:25px;
+    margin-right: 10px;
+}
+
+.bottomSocialIconButtonContainer {
+    margin-top: 25px;
+}
+
+.moduleContentText::-webkit-scrollbar {
+    width: 1px;
+}
+
+.moduleContentText::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.1); 
+    border-radius: 1px;
+}
+
+.moduleContentText::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 1);
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 1); 
+    border-radius: 1px;
+}
+
+.moduleContentContact > span {
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: 0.75px;
+    line-height: 1.6em;
+    text-align: justify;
+    margin-bottom: 5px;
+    vertical-align: top;
+    animation: 1.5s ease-out 0s 1 slideInFromRight;
+}
+
+.moduleContentTextContactList {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.moduleContentTextContactItem {
+    margin-top: 5px;
+    width: 50%;
+    margin-bottom: 5px;
+}
+
+.moduleContentTextContactItem:nth-child(even) {
+    padding-left: 0px;
+}
+
+.moduleContentTextContactItem:first-child::before, .moduleContentTextContactItem:nth-child(2)::before {
+    content: '';
+    display: block;
+    position: relative;
+    width: 65px;
+    left: 0;
+    margin-bottom: 10px;
+    border-bottom: 0px solid white;
+}
+
+.moduleContentTextContactItem::before {
+    content: '';
+    display: block;
+    position: relative;
+    width: 65px;
+    left: 0;
+    margin-bottom: 10px;
+    border-bottom: 2px solid white;
+}
+
+.moduleContentTextContactItem > span {
+    vertical-align: top;
+}
+
+.moduleContentTextContactItemLine {
+    line-height: 2em;
+}
+
+.moduleContentTextContactItemLine.cp {
+    display: inline-block;
+    min-width: 140px;
+    width: 140px;
+    max-width: 140px;
+}
+
+.moduleContentTextContactItemLine.cpshort {
+    min-width: 90px;
+    width: 90px;
+    max-width: 90px;
+}
+
+/* Adjust Module Content on small device */
+@media (max-width: 960px) {
+
+    .moduleContentContainer {
+        width: 85%;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 30;
+        left: 7vw !important;
+    }
+
+    .moduleContentModuleTitle {
+        display: inline-block !important;
+        color: rgba(255, 255, 255, 0.75);
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.75);
+        padding-bottom: 5px;
+        letter-spacing: 2px;
+        margin: 0 5vw 5vw;
+        font-size: 10px !important;
+        width: auto !important;
+        margin-left: 0px;
+    }
+
+    .moduleContentTitle {
+        font-size: 16px !important;
+    }
+
+    .moduleContentText {
+        max-height: 40vh;
+        overflow: auto;
+        margin-top: 10px;
+    }
+
+    .bottomSocialIconButtonContainer {
+        margin-top: 10px;
+    }
+    
+    .moduleContentContainer > div p {
+        font-size: 11px;
+    }
+
+    .moduleContentTextContactItem {
+        width: 100%;
+    }
+
+    .moduleContentTextContactItem:nth-child(even) {
+        padding-left: 0px;
+    }
+
+    .moduleContentTextContactItem:nth-child(2)::before {
+        border-bottom: 2px solid white;
+    }
+    
+}
+
+/* Adjust Module Content on small device super short */
+@media (max-width: 960px) and (max-height: 460px) {
+    .moduleContentText {
+        max-height: 33vh;
+        overflow: auto;
+    }
+
+    .bottomSocialIconButtonContainer {
+        margin-top: 10px;
+    }
+    
+    .moduleContentContainer > div p {
+        font-size: 11px;
+    }
+}
+
+/* Adjust Module Content on small device landscape */
+@media (max-width: 960px) and (max-height: 420px) {
+    .moduleContentContainer {
+        width: 85%;
+        position: absolute !important;
+        top: 47% !important;
+        transform: translateY(-53%) !important;
+        z-index: 30;
+        left: 7vw !important;
+    }
+
+    .moduleContentModuleTitle {
+        display: none !important;
+    }
+
+    .moduleContentTitle {
+        font-size: 14px !important;
+    }
+
+    .moduleContentText {
+        max-height: 30vh;
+        overflow: auto;
+    }
+
+    .moduleContentContainer > div p {
+        font-size: 11px;
+        letter-spacing: 0.75px;
+        line-height: 1.2em;
+    }
+}
+
+/* Adjust Module Content on small device landscape */
+@media (max-width: 960px) and (max-height: 210px) {
+    .moduleContentText {
+        max-height: 15vh;
+        overflow: auto;
+    }
+
+    .moduleContentContainer > div p {
+        font-size: 9px;
+        letter-spacing: 0.5px;
+        line-height: 1.2em;
+    }
+}

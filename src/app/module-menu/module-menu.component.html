@@ -1,0 +1,12 @@
+<div id="moduleMenuLinkContainer" class="moduleMenuLinkContainer" (click)="onModuleMenuButtonClick()"
+  #moduleMenuLinkContainer>
+  <h2 class="moduleMenuLinkSectionTitle">
+    <span>{{moduleSectionTitle}}</span>
+  </h2>
+
+  <ng-template ngFor let-moduleMenuLink [ngForOf]="moduleMenuLinkList">
+    <a href='#' routerLink="{{moduleMenuLink.routerLink}}" class="{{!!moduleMenuLink.isActive ? 'moduleMenuLinkActive' : ''}} {{!!moduleMenuLink.isSubMenu ? 'moduleMenuLinkSubMenu' : ''}}">
+      <span>{{moduleMenuLink.title}}</span>
+    </a>
+  </ng-template>
+</div>

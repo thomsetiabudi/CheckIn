@@ -1,0 +1,384 @@
+.logoAndMenu * {
+    transition: 0.5s ease-in-out all !important;
+}
+
+#logo, #logoicon {
+    color: white;
+    z-index: 100;
+    position: absolute;
+}
+
+#logoicon {
+    z-index: 101;
+}
+
+.mainLogo {
+    top: 40px;
+    left: 7vw;
+    width: 160px;
+}
+
+.cu-logo {
+    display: block;
+    max-width:230px;
+    max-height:95px;
+    width: auto;
+    height: auto;
+}
+
+/* Adjust Logo on small device */
+@media (max-width: 960px) {
+    
+    .mainLogo {
+        top: 15px;
+        left: 4vw;
+        width: 160px;
+    }
+
+    .cu-logo {
+        display: block;
+        max-width:230px;
+        max-height:85px;
+        width: auto;
+        height: auto;
+    }
+}
+
+/* Adjust Logo on small device landscape */
+@media (max-width: 960px) and (max-height: 420px) {
+   
+    .mainLogo {
+        top: 15px;
+        left: 7vw;
+        width: 160px;
+    }
+    
+    .cu-logo {
+        display: block;
+        max-width:230px;
+        max-height:35px;
+        width: auto;
+        height: auto;
+    }
+}
+
+/* Adjust Logo on super small device landscape */
+@media (max-width: 960px) and (max-height: 310px) {
+   
+    .mainLogo {
+        top: 15px;
+        left: 7vw;
+        width: 160px;
+    }
+    
+    .cu-logo {
+        display: block;
+        max-width:230px;
+        max-height:25px;
+        width: auto;
+        height: auto;
+    }
+}
+
+.mainLogoIcon {
+    top: 0px;
+    width: 7vw;
+    height: 120px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    transition: 0.5s opacity ease-in-out;
+    opacity: 1;
+}
+
+.mainLogoIcon img {
+    max-width: 35%;
+    margin: 0 auto;
+}
+
+/* Hide Small Logo on small device */
+@media (max-width: 960px) {
+   
+    .mainLogoIcon {
+      display: none;
+    }
+    
+}
+
+/* Adjust Logo on small device landscape */
+@media (max-width: 960px) and (max-height: 420px) {
+    .mainLogoIcon {
+        display: flex;
+        height: 55px;
+    }
+}
+
+/* menuButton */
+.menuButton {
+    position: fixed;
+    z-index: 103;
+    top: 80px;
+    right: 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 12px !important;
+    letter-spacing: 2px;
+    width: 7% !important;
+    height: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+.menuButton > div {
+    height: 10px;
+    width: 10px;
+    margin-left: 0.35vw;
+    display: inline-block;
+}
+
+.menuButton > div span {
+    display: block;
+    position: absolute;
+    top: 8px;
+    width: 10px;
+    height: 1px;
+    margin-top: -1px;
+    background-color: white !important;
+}
+
+.menuButton > div span:first-child {
+    margin-top: -5px;
+}
+
+.menuButton > div span:last-child {
+    margin-top: 3px;
+}
+
+.menuButton.menuButtonOpen > div > span:first-child {
+    opacity: 1;
+    margin-top: -1px;
+    transform: rotate(45deg);
+}
+
+.menuButton.menuButtonOpen > div > span {
+    opacity: 0;
+}
+
+.menuButton.menuButtonOpen > div span:last-child {
+    opacity: 1;
+    margin-top: -1px;
+    transform: rotate(-45deg);
+}
+
+/* Adjust Menu Button on small device */
+@media (max-width: 960px) {
+    .menuButton {
+        top: 30px;
+        right: 5vw;
+        width: auto !important;
+        font-size: 11px !important;
+    }
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    transform: translateX(100%);
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 50;
+    transition: 0.5s ease-in-out;
+    -webkit-transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    -moz-transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    -webkit-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    -moz-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition-delay: 0.75s;
+}
+
+nav:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #13294b;
+    opacity: 0.85;
+    display: block;
+    content: '';
+    z-index: 49;
+}
+
+.navMenuOpen nav {
+    width: 100%;
+    transform: translateX(0);
+    -webkit-transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    -moz-transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 650ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    -webkit-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    -moz-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.navMenuOpen nav #contact {
+    left: 4.8vw;
+    opacity: 1;
+    transition: 0.5s ease-in-out;
+    transition-delay: 0.43s;
+}
+
+nav #contact {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    z-index: 52;
+    opacity: 0;
+    left: 7vw !important;
+    transition: 0.5s ease-in-out;
+    transition-delay: 0.25s;
+}
+
+nav #contact > div {
+    padding: 20px 0;
+    display: block;
+}
+
+nav #contact > div p {
+    color: #fff;
+    letter-spacing: 1px;
+    line-height: 1.7em;
+    font-size: 15px;
+    letter-spacing: 0.75px;
+    line-height: 1.6em;
+    text-align: justify;
+    opacity: 0.7;
+}
+
+nav #contact > div p a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.7;
+}
+
+nav #contact > div p a:hover {
+    opacity: 1;
+}
+
+.socialIconButtonLinkNav {
+    float: right;
+    margin-right: 5px;
+}
+
+.socialIconButtonNav {
+    display: block;
+    max-width:25px;
+    max-height:25px;
+    width: auto;
+    height: auto;
+}
+
+/* Adjust Contact on small device */
+@media (max-width: 960px) {
+    nav #contact {
+        top: 75%;
+        transform: translateY(-25%);
+    }
+
+    nav #contact > div {
+        padding: 0px;
+    }
+
+    nav #contact > div p {
+        font-size: 10px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+}
+
+/* Adjust Logo on small device landscape */
+@media (max-width: 960px) and (max-height: 420px) {
+    nav #contact {
+        top: 55%;
+        transform: translateY(-45%);
+    }
+
+    nav #contact > div {
+        padding: 10px 0;
+    }
+
+    nav #contact > div p {
+        font-size: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+/* Menu List */
+nav #menuListContainer {
+    position: absolute;
+    left: 0;
+    text-align: right;
+    z-index: 54;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 7vw;
+}
+
+nav #menuListContainer li {
+    list-style-type: none;
+    position: relative;
+    opacity: 0;
+    margin-right: -200px;
+    transition: 0.5s ease-in-out;
+}
+
+.navMenuOpen nav #menuListContainer li {
+    margin-right: 0;
+    opacity: 1;
+    transition: 0.5s ease-in-out;
+    transition-delay: 0.5s;
+}
+
+nav #menuListContainer li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 30px;
+    padding: 5px 0;
+    display: inline-block;
+    opacity: 0.6;
+    transition: 0.5s ease-in-out;
+    font-size: calc(0.24038vw + 22.15385px) !important;
+}
+
+nav #menuListContainer li a:hover {
+    opacity: 1;
+    transition: 0.0125s;
+}
+
+nav #menuListContainer li.currentMenuItem a {
+    pointer-events: none;
+    opacity: 1;
+}
+
+.menuListItem:after {
+    position: absolute;
+    top: 50%;
+    height: 1px;
+    background: white;
+    content: '';
+    right: -2vw;
+    width: 0vw;
+    transition: 0.25s ease-in-out;
+}
+
+.menuListItem.currentMenuItem:after {
+    right: -6vw;
+    width: 4vw;
+}
