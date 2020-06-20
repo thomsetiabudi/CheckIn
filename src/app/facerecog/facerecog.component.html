@@ -1,0 +1,18 @@
+<!-- Content -->
+<div class="moduleContentContainer" id="moduleContentContainer" #moduleContentContainer>
+  <div>
+    <h1 class="moduleContentTitle">R-U-pa-M-U</h1>
+    <p class="moduleContentText">
+      Meong
+    </p>
+  </div>
+</div>
+
+<!-- Module Title -->
+<app-module-vertical-title [moduleTitle]="moduleTitle" #moduleTitleVertical></app-module-vertical-title>
+
+<!-- Module Content Menu Links -->
+<app-module-menu [moduleSectionTitle]="moduleTitle" [moduleMenuLinkList]="moduleMenuLinkList" #moduleMenuLinkContainer></app-module-menu>
+
+<!-- Footer: Logo and Navigation -->
+<app-overlay-menu (activated)="onOverlayMenuActivated($event)" [currentMenu]="currentOverlayMenu"></app-overlay-menu>

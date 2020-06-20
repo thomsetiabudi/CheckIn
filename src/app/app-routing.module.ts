@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { KisahComponent } from './kisah/kisah.component';
+import { FacerecogComponent } from './facerecog/facerecog.component';
 import { GembalaComponent } from './gembala/gembala.component';
 import { PersekutuanComponent } from './persekutuan/persekutuan.component';
 import { PersekutuanConnectComponent } from './persekutuan-connect/persekutuan-connect.component';
@@ -38,6 +39,14 @@ const routes: Routes = [
       title: 'Sejarah Web CheckIn',
       description: 'Tetap absen dari HP anda saat WFH',
       ogUrl: 'https://checkints.web.app/kisah'
+    }
+  },
+  {
+    path: 'facerecog', component: FacerecogComponent,
+    data: {
+      title: 'Face Recognition',
+      description: 'Kenali wajah anda sendiri',
+      ogUrl: 'https://checkints.web.app/facerecog'
     }
   },
   {
