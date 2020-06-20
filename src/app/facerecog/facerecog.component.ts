@@ -18,10 +18,12 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
   @ViewChild('loadingImage') loadingImage: any;
   @ViewChild('refImageContainer') refImageContainer: any;
   @ViewChild('refImageOverlay') refImageOverlay: any;
+  @ViewChild('loadingMsgDownload') loadingMsgDownload: any;
+  @ViewChild('loadingMsgProcess') loadingMsgProcess: any;
 
   fullFaceDescriptions;
   faceMatcher;
-  currentOverlayMenu = 'facerecog';
+  currentOverlayMenu = 'kisah';
   moduleTitle = 'Mengenal Rupa-nem';
   moduleMenuLinkList: ModuleMenuLink[] = [
     { title: 'Face Rec', routerLink: '/facerecog', isActive: true, isSubMenu: false },
@@ -38,6 +40,8 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     (this.loadingImage.nativeElement as HTMLElement).style.display = 'flex';
+    (this.loadingMsgDownload.nativeElement as HTMLElement).style.display = 'block';
+    (this.loadingMsgProcess.nativeElement as HTMLElement).style.display = 'none';
     this.downloadFaceRecognitionAssets();
   }
 
@@ -101,6 +105,8 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
   }
 
   onStartFaceRecRefClick() {
+    (this.loadingMsgDownload.nativeElement as HTMLElement).style.display = 'none';
+    (this.loadingMsgProcess.nativeElement as HTMLElement).style.display = 'block';
     (this.loadingImage.nativeElement as HTMLElement).style.display = 'flex';
     this.updateReferenceImageResults();
     //alert('meeeeooo');

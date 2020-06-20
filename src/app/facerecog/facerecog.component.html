@@ -5,15 +5,16 @@
     <p class="moduleContentText">
       Coba deloken
     </p>
-    <a (click)="onStartFaceRecRefClick()" #startFaceRecRef style="color: white">sopo iki</a>
-    <div style="position: relative" class="margin">
+    <a (click)="onStartFaceRecRefClick()" #startFaceRecRef style="color: white; cursor: pointer; border: solid 1px white; padding: 3px;">Recognize</a>
+    <div style="position: relative; margin-top: 10px;">
       <img src="/assets/sampleimg/professor2.png" style="max-width: 150px;" #refImageContainer/>
       <canvas id="refImageOverlay" style="position:absolute;top:0;left:0;" #refImageOverlay></canvas>
     </div>
     <div style="position:absolute;top:0;left:0;background-color: rgba(80,80,80,0.7); width:100%; height: 100%; display: none; align-items: center; justify-content: center; flex-direction: column;" 
        #loadingImage>
-      <div style="color: white;">Tak ndownload sik yo, enteni sik... gede iki...
-      </div><br/>
+      <div style="color: white;" #loadingMsgDownload>Tak ndownload sik yo, enteni...gede iki...</div>
+      <div style="color: white; display:none;" #loadingMsgProcess>Tak mikir sik yo..sedelok...</div>
+      <br/>
       <img src="/assets/img/ajax-loader.gif"/>
     </div>
   </div>
