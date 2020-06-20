@@ -30,6 +30,8 @@
     </div>
     <a (click)="onStartFaceRecTargetClick()" #startFaceRecTarget style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Compare</a>
     <a (click)="onStartCheckIn()" #checkInBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Check In</a>
+    <br/>
+    <div #mapContainer id="map" style="height: 150px;"></div>
     <div style="position:absolute;top:0;left:0;background-color: rgba(80,80,80,0.7); width:100%; height: 100%; display: none; align-items: center; justify-content: center; flex-direction: column;" 
        #loadingImage>
       <div style="color: white;" #loadingMsgDownload>Tak ndownload sik yo, enteni...gede iki...</div>

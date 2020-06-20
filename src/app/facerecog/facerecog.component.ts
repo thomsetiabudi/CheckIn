@@ -41,6 +41,8 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
 
   @ViewChild('checkInBtn') checkInBtn: any;
 
+  @ViewChild('mapContainer') gmap: ElementRef;
+
   fullFaceDescriptions;
   faceMatcher;
   currentOverlayMenu = 'kisah';
@@ -75,6 +77,19 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
         height: { ideal: 200 }
     }
   };
+
+  lat = 40.730610;
+  lng = -73.935242;
+  map: google.maps.Map;
+  coordinates = new google.maps.LatLng(this.lat, this.lng);
+  mapOptions: google.maps.MapOptions = {
+    center: this.coordinates,
+    zoom: 12,
+  };
+
+  mapInitializer() {
+    this.map = new google.maps.Map(this.gmap.nativeElement, this.mapOptions);
+   }
 
   constructor(private route: ActivatedRoute, private _seoService: SeoService, private renderer: Renderer2) { }
 
@@ -112,9 +127,9 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
       this.canvasCam.nativeElement.getContext('2d').drawImage(this.videoElement.nativeElement, 0, 0);
       (this.refImageContainer.nativeElement as HTMLImageElement).src = (this.canvasCam.nativeElement as HTMLCanvasElement).toDataURL();
 
-      (this.refImageContainer.nativeElement as HTMLImageElement).width = 200;
-      (this.refImageContainer.nativeElement as HTMLImageElement).height = 200;
-      (this.refImageContainer.nativeElement as HTMLImageElement).src = 'http://localhost:4200/assets/sampleimg/professor2.png';
+      //(this.refImageContainer.nativeElement as HTMLImageElement).width = 200;
+      //(this.refImageContainer.nativeElement as HTMLImageElement).height = 200;
+      //(this.refImageContainer.nativeElement as HTMLImageElement).src = 'http://localhost:4200/assets/sampleimg/professor2.png';
 
       (this.videoCamContainer.nativeElement as HTMLElement).style.display = 'none';
       (this.refImageCamContainer.nativeElement as HTMLElement).style.display = 'block';
@@ -157,9 +172,9 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     (this.refImageTargetContainer.nativeElement as HTMLImageElement).src =
     (this.canvasTargetCam.nativeElement as HTMLCanvasElement).toDataURL();
 
-    (this.refImageTargetContainer.nativeElement as HTMLImageElement).width = 200;
-    (this.refImageTargetContainer.nativeElement as HTMLImageElement).height = 200;
-    (this.refImageTargetContainer.nativeElement as HTMLImageElement).src = 'http://localhost:4200/assets/sampleimg/professor.jpg';
+    //(this.refImageTargetContainer.nativeElement as HTMLImageElement).width = 200;
+    //(this.refImageTargetContainer.nativeElement as HTMLImageElement).height = 200;
+    //(this.refImageTargetContainer.nativeElement as HTMLImageElement).src = 'http://localhost:4200/assets/sampleimg/professor.jpg';
 
     (this.refImageTargetOverlay.nativeElement as HTMLElement).style.display = 'none';
     (this.videoCamTargetContainer.nativeElement as HTMLElement).style.display = 'none';
@@ -215,10 +230,10 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     // from the detection results for the reference image
     this.faceMatcher = new faceapi.FaceMatcher(this.fullFaceDescriptions);
 
-    faceapi.matchDimensions(canvas, inputImgEl)
+    faceapi.matchDimensions(canvas, inputImgEl);
     // // resize detection and landmarks in case displayed image is smaller than
     // // original size
-    const resizedResults = faceapi.resizeResults(this.fullFaceDescriptions, inputImgEl)
+    const resizedResults = faceapi.resizeResults(this.fullFaceDescriptions, inputImgEl);
     // draw boxes with the corresponding label as text
     const labels = this.faceMatcher.labeledDescriptors.map(ld => ld.label);
     resizedResults.forEach(({ detection, descriptor }) => {
@@ -306,15 +321,26 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser');
     } else {
-      navigator.geolocation.getCurrentPosition(this.successGetLocation, this.errorGetLocation);
+      navigator.geolocation.getCurrentPosition(this.successGetLocation.bind(this), this.errorGetLocation.bind(this));
     }
   }
 
   successGetLocation(position) {
-    const latitude  = position.coords.latitude;
-    const longitude = position.coords.longitude;
+    this.lat = position.coords.latitude;
+    this.lng = position.coords.longitude;
 
     (this.checkInBtn.nativeElement as HTMLElement).style.display = 'none';
+
+    this.coordinates = new google.maps.LatLng(this.lat, this.lng);
+    this.mapOptions.center = this.coordinates;
+    this.mapInitializer();
+
+    const marker = new google.maps.Marker({
+      position: this.coordinates,
+      map: this.map,
+    });
+
+    marker.setMap(this.map);
   }
 
   errorGetLocation() {
