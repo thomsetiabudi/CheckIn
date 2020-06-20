@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 import { ModuleVerticalTitleComponent } from '../module-vertical-title/module-vertical-title.component';
 import { ModuleMenuComponent } from '../module-menu/module-menu.component';
 import { ModuleMenuLink } from '../module-menu-link';
@@ -21,6 +21,26 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
   @ViewChild('loadingMsgDownload') loadingMsgDownload: any;
   @ViewChild('loadingMsgProcess') loadingMsgProcess: any;
 
+  @ViewChild('video') videoElement: ElementRef;
+  @ViewChild('canvas') canvasCam: ElementRef;
+  @ViewChild('videoCamTargetContainer') videoCamTargetContainer: any;
+  @ViewChild('refImageCamContainer') refImageCamContainer: any;
+  @ViewChild('openCameraBtn') openCameraBtn: any;
+  @ViewChild('captureCameraBtn') captureCameraBtn: any;
+  @ViewChild('startFaceRecRef') startFaceRecRef: any;
+
+  @ViewChild('refImageTargetContainer') refImageTargetContainer: any;
+  @ViewChild('refImageTargetOverlay') refImageTargetOverlay: any;
+  @ViewChild('videoTarget') videoTargetElement: ElementRef;
+  @ViewChild('canvasTarget') canvasTargetCam: ElementRef;
+  @ViewChild('videoCamContainer') videoCamContainer: any;
+  @ViewChild('refImageTargetCamContainer') refImageTargetCamContainer: any;
+  @ViewChild('openCameraTargetBtn') openCameraTargetBtn: any;
+  @ViewChild('captureCameraTargetBtn') captureCameraTargetBtn: any;
+  @ViewChild('startFaceRecTarget') startFaceRecTarget: any;
+
+  @ViewChild('checkInBtn') checkInBtn: any;
+
   fullFaceDescriptions;
   faceMatcher;
   currentOverlayMenu = 'kisah';
@@ -30,13 +50,124 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     { title: 'Home', routerLink: '/home', isActive: false, isSubMenu: false }
   ];
 
-  constructor(private route: ActivatedRoute, private _seoService: SeoService) { }
+  videoWidth = 0;
+  videoHeight = 0;
+  constraints = {
+      video: {
+          facingMode: 'user',
+          width: { ideal: 200 },
+          height: { ideal: 200 }
+      }
+  };
+
+  userCameraConstraints = {
+    video: {
+        facingMode: 'user',
+        width: { ideal: 200 },
+        height: { ideal: 200 }
+    }
+  };
+
+  environmentCameraConstraints = {
+    video: {
+        facingMode: 'user',
+        width: { ideal: 200 },
+        height: { ideal: 200 }
+    }
+  };
+
+  constructor(private route: ActivatedRoute, private _seoService: SeoService, private renderer: Renderer2) { }
 
   ngOnInit() {
     this._seoService.updateTitle(this.route.snapshot.data['title']);
     this._seoService.updateOgUrl(this.route.snapshot.data['ogUrl']);
     this._seoService.updateDescription(this.route.snapshot.data['description']);
   }
+
+  onStartCamera() {
+    if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+        navigator.mediaDevices.getUserMedia(this.constraints).then(this.attachVideo.bind(this)).catch(this.handleError);
+    } else {
+        alert('Ora ono camerane ndaa...');
+    }
+  }
+
+  attachVideo(stream) {
+    this.renderer.setProperty(this.videoElement.nativeElement, 'srcObject', stream);
+    this.renderer.listen(this.videoElement.nativeElement, 'play', (event) => {
+        this.videoHeight = this.videoElement.nativeElement.videoHeight;
+        this.videoWidth = this.videoElement.nativeElement.videoWidth;
+    });
+    (this.refImageCamContainer.nativeElement as HTMLElement).style.display = 'none';
+    (this.videoCamContainer.nativeElement as HTMLElement).style.display = 'block';
+    (this.openCameraBtn.nativeElement as HTMLElement).style.display = 'none';
+    (this.captureCameraBtn.nativeElement as HTMLElement).style.display = 'inline-block';
+
+    (this.startFaceRecRef.nativeElement as HTMLElement).style.display = 'none';
+  }
+
+  capture() {
+      this.renderer.setProperty(this.canvasCam.nativeElement, 'width', this.videoWidth);
+      this.renderer.setProperty(this.canvasCam.nativeElement, 'height', this.videoHeight);
+      this.canvasCam.nativeElement.getContext('2d').drawImage(this.videoElement.nativeElement, 0, 0);
+      (this.refImageContainer.nativeElement as HTMLImageElement).src = (this.canvasCam.nativeElement as HTMLCanvasElement).toDataURL();
+
+      (this.refImageContainer.nativeElement as HTMLImageElement).width = 200;
+      (this.refImageContainer.nativeElement as HTMLImageElement).height = 200;
+      (this.refImageContainer.nativeElement as HTMLImageElement).src = 'http://localhost:4200/assets/sampleimg/professor2.png';
+
+      (this.videoCamContainer.nativeElement as HTMLElement).style.display = 'none';
+      (this.refImageCamContainer.nativeElement as HTMLElement).style.display = 'block';
+      (this.openCameraBtn.nativeElement as HTMLElement).style.display = 'inline-block';
+      (this.captureCameraBtn.nativeElement as HTMLElement).style.display = 'none';
+      (this.startFaceRecRef.nativeElement as HTMLElement).style.display = 'inline-block';
+  }
+
+  handleError(error) {
+    alert('Error: ' + error);
+  }
+
+  onStartCameraTarget() {
+    if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+      navigator.mediaDevices.getUserMedia(this.constraints).then(this.attachVideoTarget.bind(this)).catch(this.handleError);
+    } else {
+        alert('Ora ono camerane ndaa...');
+    }
+  }
+
+  attachVideoTarget(stream) {
+    this.renderer.setProperty(this.videoTargetElement.nativeElement, 'srcObject', stream);
+    this.renderer.listen(this.videoTargetElement.nativeElement, 'play', (event) => {
+        this.videoHeight = this.videoTargetElement.nativeElement.videoHeight;
+        this.videoWidth = this.videoTargetElement.nativeElement.videoWidth;
+    });
+
+    (this.startFaceRecTarget.nativeElement as HTMLElement).style.display = 'none';
+    (this.refImageTargetCamContainer.nativeElement as HTMLElement).style.display = 'none';
+    (this.videoCamTargetContainer.nativeElement as HTMLElement).style.display = 'block';
+    (this.openCameraTargetBtn.nativeElement as HTMLElement).style.display = 'none';
+    (this.captureCameraTargetBtn.nativeElement as HTMLElement).style.display = 'inline-block';
+  }
+
+  captureTarget() {
+    this.renderer.setProperty(this.canvasTargetCam.nativeElement, 'width', this.videoWidth);
+    this.renderer.setProperty(this.canvasTargetCam.nativeElement, 'height', this.videoHeight);
+    this.canvasTargetCam.nativeElement.getContext('2d').drawImage(this.videoTargetElement.nativeElement, 0, 0);
+
+    (this.refImageTargetContainer.nativeElement as HTMLImageElement).src =
+    (this.canvasTargetCam.nativeElement as HTMLCanvasElement).toDataURL();
+
+    (this.refImageTargetContainer.nativeElement as HTMLImageElement).width = 200;
+    (this.refImageTargetContainer.nativeElement as HTMLImageElement).height = 200;
+    (this.refImageTargetContainer.nativeElement as HTMLImageElement).src = 'http://localhost:4200/assets/sampleimg/professor.jpg';
+
+    (this.refImageTargetOverlay.nativeElement as HTMLElement).style.display = 'none';
+    (this.videoCamTargetContainer.nativeElement as HTMLElement).style.display = 'none';
+    (this.refImageTargetCamContainer.nativeElement as HTMLElement).style.display = 'block';
+    (this.openCameraTargetBtn.nativeElement as HTMLElement).style.display = 'inline-block';
+    (this.captureCameraTargetBtn.nativeElement as HTMLElement).style.display = 'none';
+    (this.startFaceRecTarget.nativeElement as HTMLElement).style.display = 'inline-block';
+}
 
   ngAfterViewInit() {
     (this.loadingImage.nativeElement as HTMLElement).style.display = 'flex';
@@ -74,8 +205,10 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
        .withFaceDescriptors().run();
 
      if (!this.fullFaceDescriptions.length) {
-       alert('ra ono rupane nda');
-       return;
+      (this.loadingImage.nativeElement as HTMLElement).style.display = 'none';
+      alert('ra ono rupane nda');
+      this.onStartCamera();
+      return;
      }
 
     // create FaceMatcher with automatically assigned labels
@@ -95,6 +228,10 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
       drawBox.draw(canvas);
     });
     (this.loadingImage.nativeElement as HTMLElement).style.display = 'none';
+
+    (this.openCameraBtn.nativeElement as HTMLElement).style.display = 'none';
+    (this.startFaceRecRef.nativeElement as HTMLElement).style.display = 'none';
+    (this.openCameraTargetBtn.nativeElement as HTMLElement).style.display = 'inline-block';
   }
 
   getFaceDetectorOptions() {
@@ -109,32 +246,80 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     (this.loadingMsgProcess.nativeElement as HTMLElement).style.display = 'block';
     (this.loadingImage.nativeElement as HTMLElement).style.display = 'flex';
     this.updateReferenceImageResults();
-    //alert('meeeeooo');
-    //this.getValueWithAsync();
   }
 
-  onCheckFaceRecRefClick() {
-    //if (this.fullFaceDescriptions == null) {
-    //  alert('masih kosoooong');
-    //} else if (!this.fullFaceDescriptions.length) {
-    //  alert(this.fullFaceDescriptions.length);
-    //  alert('ra ono rupane nda');
-    //} else {
-    //  alert('yeaay');
-    //}
+  onStartFaceRecTargetClick() {
+    (this.loadingMsgDownload.nativeElement as HTMLElement).style.display = 'none';
+    (this.loadingMsgProcess.nativeElement as HTMLElement).style.display = 'block';
+    (this.loadingImage.nativeElement as HTMLElement).style.display = 'flex';
+    this.updateQueryImageResults();
   }
 
-  resolveAfter2Seconds(x) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(x);
-      }, 2000);
+  async updateQueryImageResults() {
+    if (!this.faceMatcher) {
+      return;
+    }
+
+    const inputImgEl = this.refImageTargetContainer.nativeElement;
+    const canvas = this.refImageTargetOverlay.nativeElement;
+
+    const results = await faceapi
+      .detectAllFaces(inputImgEl, this.getFaceDetectorOptions())
+      .withFaceLandmarks()
+      .withFaceDescriptors().run();
+
+    if (!results.length) {
+      (this.loadingImage.nativeElement as HTMLElement).style.display = 'none';
+      alert('ra ono rupane nda');
+      this.onStartCameraTarget();
+      return;
+    }
+
+    faceapi.matchDimensions(canvas, inputImgEl);
+    // resize detection and landmarks in case displayed image is smaller than
+    // original size
+    const resizedResults = faceapi.resizeResults(results, inputImgEl);
+
+    let isMatch = false;
+    resizedResults.forEach(({ detection, descriptor }) => {
+      const label = this.faceMatcher.findBestMatch(descriptor).toString();
+
+      if (label.includes('person 1')) {
+        isMatch = true;
+      }
+
+      const options = { label };
+      const drawBox = new faceapi.draw.DrawBox(detection.box, options);
+      drawBox.draw(canvas);
     });
+    (this.refImageTargetOverlay.nativeElement as HTMLElement).style.display = 'block';
+    (this.loadingImage.nativeElement as HTMLElement).style.display = 'none';
+
+    if (isMatch) {
+      (this.openCameraTargetBtn.nativeElement as HTMLElement).style.display = 'none';
+      (this.startFaceRecTarget.nativeElement as HTMLElement).style.display = 'none';
+      (this.checkInBtn.nativeElement as HTMLElement).style.display = 'inline-block';
+    }
   }
 
-  async getValueWithAsync() {
-    const value = <number>await this.resolveAfter2Seconds(20);
-    console.log(`async result: ${value}`);
+  onStartCheckIn() {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+    } else {
+      navigator.geolocation.getCurrentPosition(this.successGetLocation, this.errorGetLocation);
+    }
   }
+
+  successGetLocation(position) {
+    const latitude  = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    (this.checkInBtn.nativeElement as HTMLElement).style.display = 'none';
+  }
+
+  errorGetLocation() {
+    alert('Unable to retrieve your location');
+  }
+
 }
 

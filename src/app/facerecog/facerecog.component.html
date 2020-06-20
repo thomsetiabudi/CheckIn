@@ -2,14 +2,34 @@
 <div class="moduleContentContainer" id="moduleContentContainer" #moduleContentContainer>
   <div>
     <h1 class="moduleContentTitle">R-U-pa-M-U</h1>
-    <p class="moduleContentText">
-      Coba deloken
-    </p>
-    <a (click)="onStartFaceRecRefClick()" #startFaceRecRef style="color: white; cursor: pointer; border: solid 1px white; padding: 3px;">Recognize</a>
-    <div style="position: relative; margin-top: 10px;">
-      <img src="/assets/sampleimg/professor2.png" style="max-width: 150px;" #refImageContainer/>
-      <canvas id="refImageOverlay" style="position:absolute;top:0;left:0;" #refImageOverlay></canvas>
+    <a (click)="onStartCamera()" #openCameraBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px;">Foto contone sik</a>
+    <a (click)="capture()" #captureCameraBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Jepreeet</a>
+    <div style="position: relative; margin-top: 10px; display: none;" #videoCamContainer>
+      <video #video class="vid" autoplay width="150" height="150"></video>
     </div>
+    <div style="position: relative; margin-top: 10px; display: none;">
+      <canvas #canvas class="vid"></canvas>
+    </div>
+    <div style="position: relative; margin-top: 10px; display: none;" #refImageCamContainer>
+      <img src="" style="width: 150px; height: 150px;" #refImageContainer/>
+      <canvas id="refImageOverlay" style="position:absolute;top:0;left:0;width: 150px; height: 150px;" #refImageOverlay></canvas>
+    </div>
+    <a (click)="onStartFaceRecRefClick()" #startFaceRecRef style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Recognize</a>
+    <br />
+    <a (click)="onStartCameraTarget()" #openCameraTargetBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Foto tenan</a>
+    <a (click)="captureTarget()" #captureCameraTargetBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Jepreeet</a>
+    <div style="position: relative; margin-top: 10px; display: none;" #videoCamTargetContainer>
+      <video #videoTarget class="vid" autoplay width="150" height="150"></video>
+    </div>
+    <div style="position: relative; margin-top: 10px; display: none;">
+      <canvas #canvasTarget class="vid"></canvas>
+    </div>
+    <div style="position: relative; margin-top: 10px; display: none;" #refImageTargetCamContainer>
+      <img src="" style="width: 150px; height: 150px;" #refImageTargetContainer/>
+      <canvas id="refImageTargetOverlay" style="position:absolute;top:0;left:0;width: 150px; height: 150px;" #refImageTargetOverlay></canvas>
+    </div>
+    <a (click)="onStartFaceRecTargetClick()" #startFaceRecTarget style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Compare</a>
+    <a (click)="onStartCheckIn()" #checkInBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Check In</a>
     <div style="position:absolute;top:0;left:0;background-color: rgba(80,80,80,0.7); width:100%; height: 100%; display: none; align-items: center; justify-content: center; flex-direction: column;" 
        #loadingImage>
       <div style="color: white;" #loadingMsgDownload>Tak ndownload sik yo, enteni...gede iki...</div>
