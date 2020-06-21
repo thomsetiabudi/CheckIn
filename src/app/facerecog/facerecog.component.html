@@ -6,6 +6,7 @@
     <a (click)="capture()" #captureCameraBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Jepreeet</a>
     <div style="position: relative; margin-top: 10px; display: none;" #videoCamContainer>
       <video #video class="vid" autoplay width="150" height="150"></video>
+      <canvas #canvasPreviewVideoCam style="position:absolute;top:0;left:0;width: 150px; height: 150px; display: none;"></canvas>
     </div>
     <div style="position: relative; margin-top: 10px; display: none;">
       <canvas #canvas class="vid"></canvas>
@@ -20,6 +21,7 @@
     <a (click)="captureTarget()" #captureCameraTargetBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Jepreeet</a>
     <div style="position: relative; margin-top: 10px; display: none;" #videoCamTargetContainer>
       <video #videoTarget class="vid" autoplay width="150" height="150"></video>
+      <canvas #canvasPreviewVideoTargetCam style="position:absolute;top:0;left:0;width: 150px; height: 150px; display: none;"></canvas>
     </div>
     <div style="position: relative; margin-top: 10px; display: none;">
       <canvas #canvasTarget class="vid"></canvas>

@@ -22,6 +22,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
   @ViewChild('loadingMsgProcess') loadingMsgProcess: any;
 
   @ViewChild('video') videoElement: ElementRef;
+  @ViewChild('canvasPreviewVideoCam') canvasPreviewVideoCam: any;
   @ViewChild('canvas') canvasCam: ElementRef;
   @ViewChild('videoCamTargetContainer') videoCamTargetContainer: any;
   @ViewChild('refImageCamContainer') refImageCamContainer: any;
@@ -32,6 +33,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
   @ViewChild('refImageTargetContainer') refImageTargetContainer: any;
   @ViewChild('refImageTargetOverlay') refImageTargetOverlay: any;
   @ViewChild('videoTarget') videoTargetElement: ElementRef;
+  @ViewChild('canvasPreviewVideoTargetCam') canvasPreviewVideoTargetCam: any;
   @ViewChild('canvasTarget') canvasTargetCam: ElementRef;
   @ViewChild('videoCamContainer') videoCamContainer: any;
   @ViewChild('refImageTargetCamContainer') refImageTargetCamContainer: any;
@@ -87,6 +89,9 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     zoom: 12,
   };
 
+  refVideoStream;
+  targetVideoStream;
+
   mapInitializer() {
     this.map = new google.maps.Map(this.gmap.nativeElement, this.mapOptions);
    }
@@ -99,6 +104,52 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     this._seoService.updateDescription(this.route.snapshot.data['description']);
   }
 
+  async onPlayVideoCam() {
+    const videoEl = this.videoElement.nativeElement;
+
+    if (videoEl.paused || videoEl.ended) {
+      return setTimeout(() => this.onPlayVideoCam());
+    }
+
+    const options = this.getFaceDetectorOptions();
+
+    const result = await faceapi.detectSingleFace(videoEl, options);
+
+    const canvas = this.canvasPreviewVideoCam.nativeElement;
+    if (result) {
+      const dims = faceapi.matchDimensions(canvas, videoEl, true);
+      faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+      canvas.style.display = 'block';
+    } else {
+      canvas.style.display = 'none';
+    }
+
+    setTimeout(() => this.onPlayVideoCam());
+  }
+
+  async onPlayTargetVideoCam() {
+    const videoEl = this.videoTargetElement.nativeElement;
+
+    if (videoEl.paused || videoEl.ended) {
+      return setTimeout(() => this.onPlayTargetVideoCam());
+    }
+
+    const options = this.getFaceDetectorOptions();
+
+    const result = await faceapi.detectSingleFace(videoEl, options);
+
+    const canvas = this.canvasPreviewVideoTargetCam.nativeElement;
+    if (result) {
+      const dims = faceapi.matchDimensions(canvas, videoEl, true);
+      faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+      canvas.style.display = 'block';
+    } else {
+      canvas.style.display = 'none';
+    }
+
+    setTimeout(() => this.onPlayTargetVideoCam());
+  }
+
   onStartCamera() {
     if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
         navigator.mediaDevices.getUserMedia(this.constraints).then(this.attachVideo.bind(this)).catch(this.handleError);
@@ -108,6 +159,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
   }
 
   attachVideo(stream) {
+    this.refVideoStream = stream;
     this.renderer.setProperty(this.videoElement.nativeElement, 'srcObject', stream);
     this.renderer.listen(this.videoElement.nativeElement, 'play', (event) => {
         this.videoHeight = this.videoElement.nativeElement.videoHeight;
@@ -119,6 +171,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     (this.captureCameraBtn.nativeElement as HTMLElement).style.display = 'inline-block';
 
     (this.startFaceRecRef.nativeElement as HTMLElement).style.display = 'none';
+    this.onPlayVideoCam();
   }
 
   capture() {
@@ -136,6 +189,10 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
       (this.openCameraBtn.nativeElement as HTMLElement).style.display = 'inline-block';
       (this.captureCameraBtn.nativeElement as HTMLElement).style.display = 'none';
       (this.startFaceRecRef.nativeElement as HTMLElement).style.display = 'inline-block';
+
+      this.refVideoStream.getTracks().forEach(videoTrack => {
+        videoTrack.stop();
+      });
   }
 
   handleError(error) {
@@ -151,6 +208,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
   }
 
   attachVideoTarget(stream) {
+    this.targetVideoStream = stream;
     this.renderer.setProperty(this.videoTargetElement.nativeElement, 'srcObject', stream);
     this.renderer.listen(this.videoTargetElement.nativeElement, 'play', (event) => {
         this.videoHeight = this.videoTargetElement.nativeElement.videoHeight;
@@ -162,6 +220,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     (this.videoCamTargetContainer.nativeElement as HTMLElement).style.display = 'block';
     (this.openCameraTargetBtn.nativeElement as HTMLElement).style.display = 'none';
     (this.captureCameraTargetBtn.nativeElement as HTMLElement).style.display = 'inline-block';
+    this.onPlayTargetVideoCam();
   }
 
   captureTarget() {
@@ -182,6 +241,10 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     (this.openCameraTargetBtn.nativeElement as HTMLElement).style.display = 'inline-block';
     (this.captureCameraTargetBtn.nativeElement as HTMLElement).style.display = 'none';
     (this.startFaceRecTarget.nativeElement as HTMLElement).style.display = 'inline-block';
+
+    this.targetVideoStream.getTracks().forEach(videoTrack => {
+      videoTrack.stop();
+    });
 }
 
   ngAfterViewInit() {
@@ -251,7 +314,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
 
   getFaceDetectorOptions() {
     // tiny_face_detector options
-    const inputSize = 512;
+    const inputSize = 160;
     const scoreThreshold = 0.5;
     return new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold });
   }
