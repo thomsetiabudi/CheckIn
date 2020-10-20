@@ -5,6 +5,7 @@ import { ModuleMenuLink } from '../module-menu-link';
 import { SeoService } from '../seo.service';
 import { ActivatedRoute } from '@angular/router';
 import * as faceapi from 'face-api.js';
+import { FaceDetection } from 'face-api.js';
 
 @Component({
   selector: 'app-facerecog',
@@ -118,7 +119,9 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     const canvas = this.canvasPreviewVideoCam.nativeElement;
     if (result) {
       const dims = faceapi.matchDimensions(canvas, videoEl, true);
-      faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+      const faceDetect = new FaceDetection(0, result.relativeBox, result.imageDims);
+      faceapi.draw.drawDetections(canvas, faceapi.resizeResults(faceDetect, dims));
+      //faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
       canvas.style.display = 'block';
     } else {
       canvas.style.display = 'none';
@@ -141,7 +144,9 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     const canvas = this.canvasPreviewVideoTargetCam.nativeElement;
     if (result) {
       const dims = faceapi.matchDimensions(canvas, videoEl, true);
-      faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+      const faceDetect = new FaceDetection(0, result.relativeBox, result.imageDims);
+      faceapi.draw.drawDetections(canvas, faceapi.resizeResults(faceDetect, dims));
+      //faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
       canvas.style.display = 'block';
     } else {
       canvas.style.display = 'none';
@@ -245,6 +250,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     this.targetVideoStream.getTracks().forEach(videoTrack => {
       videoTrack.stop();
     });
+    this.onStartFaceRecTargetClick();
 }
 
   ngAfterViewInit() {
@@ -291,7 +297,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
 
     // create FaceMatcher with automatically assigned labels
     // from the detection results for the reference image
-    this.faceMatcher = new faceapi.FaceMatcher(this.fullFaceDescriptions);
+    this.faceMatcher = new faceapi.FaceMatcher(this.fullFaceDescriptions, 0.4);
 
     faceapi.matchDimensions(canvas, inputImgEl);
     // // resize detection and landmarks in case displayed image is smaller than
@@ -300,7 +306,10 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
     // draw boxes with the corresponding label as text
     const labels = this.faceMatcher.labeledDescriptors.map(ld => ld.label);
     resizedResults.forEach(({ detection, descriptor }) => {
-      const label = this.faceMatcher.findBestMatch(descriptor).toString();
+      let label = this.faceMatcher.findBestMatch(descriptor).toString();
+      if (label.includes('person 1')) {
+        label = '';
+      }
       const options = { label };
       const drawBox = new faceapi.draw.DrawBox(detection.box, options);
       drawBox.draw(canvas);
@@ -360,10 +369,11 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
 
     let isMatch = false;
     resizedResults.forEach(({ detection, descriptor }) => {
-      const label = this.faceMatcher.findBestMatch(descriptor).toString();
+      let label = this.faceMatcher.findBestMatch(descriptor).toString();
 
       if (label.includes('person 1')) {
         isMatch = true;
+        label = '';
       }
 
       const options = { label };
@@ -377,6 +387,7 @@ export class FacerecogComponent implements OnInit, AfterViewInit {
       (this.openCameraTargetBtn.nativeElement as HTMLElement).style.display = 'none';
       (this.startFaceRecTarget.nativeElement as HTMLElement).style.display = 'none';
       (this.checkInBtn.nativeElement as HTMLElement).style.display = 'inline-block';
+      this.onStartCheckIn();
     }
   }
 

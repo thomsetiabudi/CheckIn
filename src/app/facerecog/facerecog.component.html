@@ -2,33 +2,35 @@
 <div class="moduleContentContainer" id="moduleContentContainer" #moduleContentContainer>
   <div>
     <h1 class="moduleContentTitle">R-U-pa-M-U</h1>
-    <a (click)="onStartCamera()" #openCameraBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px;">Foto contone sik</a>
+    <div class="moduleContentText">
+      <a (click)="onStartCamera()" #openCameraBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px;">Foto contone sik</a>
     <a (click)="capture()" #captureCameraBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Jepreeet</a>
     <div style="position: relative; margin-top: 10px; display: none;" #videoCamContainer>
-      <video #video class="vid" autoplay width="150" height="150"></video>
-      <canvas #canvasPreviewVideoCam style="position:absolute;top:0;left:0;width: 150px; height: 150px; display: none;"></canvas>
+      <video #video class="vid" autoplay width="150" height="150" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"></video>
+      <canvas #canvasPreviewVideoCam style="position:absolute;top:0;left:0;width: 150px; height: 150px; display: none; transform: scaleX(-1); -webkit-transform: scaleX(-1);"></canvas>
+      <div style="position:absolute;top:0;left:0;width: 150px; height: 150px; color:white; text-shadow: -1px -1px 0 #00f, 1px -1px 0 #00f, -1px 1px 0 #00f, 1px 1px 0 #00f;">Nama di sini tapi panjang namanya trus pie</div>
     </div>
     <div style="position: relative; margin-top: 10px; display: none;">
       <canvas #canvas class="vid"></canvas>
     </div>
     <div style="position: relative; margin-top: 10px; display: none;" #refImageCamContainer>
-      <img src="" style="width: 150px; height: 150px;" #refImageContainer/>
-      <canvas id="refImageOverlay" style="position:absolute;top:0;left:0;width: 150px; height: 150px;" #refImageOverlay></canvas>
+      <img src="" style="width: 150px; height: 150px; transform: scaleX(-1); -webkit-transform: scaleX(-1);" #refImageContainer/>
+      <canvas id="refImageOverlay" style="position:absolute;top:0;left:0;width: 150px; height: 150px; transform: scaleX(-1); -webkit-transform: scaleX(-1);" #refImageOverlay></canvas>
     </div>
     <a (click)="onStartFaceRecRefClick()" #startFaceRecRef style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Recognize</a>
     <br />
     <a (click)="onStartCameraTarget()" #openCameraTargetBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Foto tenan</a>
     <a (click)="captureTarget()" #captureCameraTargetBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none">Jepreeet</a>
     <div style="position: relative; margin-top: 10px; display: none;" #videoCamTargetContainer>
-      <video #videoTarget class="vid" autoplay width="150" height="150"></video>
-      <canvas #canvasPreviewVideoTargetCam style="position:absolute;top:0;left:0;width: 150px; height: 150px; display: none;"></canvas>
+      <video #videoTarget class="vid" autoplay width="150" height="150" style="transform: scaleX(-1); -webkit-transform: scaleX(-1);"></video>
+      <canvas #canvasPreviewVideoTargetCam style="position:absolute;top:0;left:0;width: 150px; height: 150px; display: none; transform: scaleX(-1); -webkit-transform: scaleX(-1);"></canvas>
     </div>
     <div style="position: relative; margin-top: 10px; display: none;">
       <canvas #canvasTarget class="vid"></canvas>
     </div>
     <div style="position: relative; margin-top: 10px; display: none;" #refImageTargetCamContainer>
-      <img src="" style="width: 150px; height: 150px;" #refImageTargetContainer/>
-      <canvas id="refImageTargetOverlay" style="position:absolute;top:0;left:0;width: 150px; height: 150px;" #refImageTargetOverlay></canvas>
+      <img src="" style="width: 150px; height: 150px; transform: scaleX(-1); -webkit-transform: scaleX(-1);" #refImageTargetContainer/>
+      <canvas id="refImageTargetOverlay" style="position:absolute;top:0;left:0;width: 150px; height: 150px; transform: scaleX(-1); -webkit-transform: scaleX(-1);" #refImageTargetOverlay></canvas>
     </div>
     <a (click)="onStartFaceRecTargetClick()" #startFaceRecTarget style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Compare</a>
     <a (click)="onStartCheckIn()" #checkInBtn style="color: white; cursor: pointer; border: solid 1px white; padding: 3px; display: none;">Check In</a>
@@ -41,6 +43,8 @@
       <br/>
       <img src="/assets/img/ajax-loader.gif"/>
     </div>
+    </div>
+    
   </div>
 </div>
 
